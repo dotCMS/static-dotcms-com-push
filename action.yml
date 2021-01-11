@@ -1,0 +1,26 @@
+# action.yml
+name: 'static.dotcms.com resource push'
+description: 'Pushes a file/directory to a AWS S3 (static.dotcms.com)'
+inputs:
+  type:
+    description: 'Type of resource to upload, possible values: "distro" or "javadoc"'
+    required: true
+  version:
+    description: 'DotCMS version to upload'
+    required: true
+  aws-access-key-id:
+    description: 'AWS Access Key Id'
+    required: true
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
+  
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.bucket }}
+    - ${{ inputs.key }}
+    - ${{ inputs.object }}
+    - ${{ inputs.aws-access-key-id }}
+    - ${{ inputs.aws-secret-access-key }}
