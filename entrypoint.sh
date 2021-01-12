@@ -10,7 +10,7 @@ aws_folder=/root/.aws
 target_base='./dist-output'
 test_prefix='vico'
 distro_base_key='versions'
-javadoc_base_key='docs/${version}/javadocs'
+javadoc_base_key="docs/${version}/javadocs"
 if [[ ${test_run} == true ]]; then
   distro_base_key="${test_prefix}/${distro_base_key}"
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
@@ -23,7 +23,7 @@ aws_access_key_id=${aws_access_key_id}
 aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
 chmod 644 ${aws_folder}/credentials
 
-ip route add blackhole 169.254.169.254
+route add blackhole 169.254.169.254
 
 function s3Push {
   local key=$1
@@ -38,11 +38,11 @@ function s3Push {
 function pushDistro {
   local ext=$1
   local distro_file="dotcms_${version}.${ext}"
-  s3Push "${distro_base_key}/${distro_file}" "${target_base}/${distro_file}"
+  s3Push ${distro_base_key}/${distro_file} ${target_base}/${distro_file}
 }
 
 function pushJavadoc {
-  s3Push "${javadoc_base_key}" "./buils/docs/javadoc"
+  s3Push ${javadoc_base_key} ./buils/docs/javadoc
 }
 
 case "${type}" in
@@ -59,9 +59,9 @@ case "${type}" in
     pushJavadoc
     ;;
   *)
-    echo "Invalid type, should be 'distro' or 'javadoc'"
+    echo "Invalid type, it should be 'distro', 'javadoc' or 'all'"
     exit 1
     ;;
 esac
 
-ip route del blackhole 169.254.169.254
+route del blackhole 169.254.169.254
