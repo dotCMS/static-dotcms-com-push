@@ -6,7 +6,7 @@ LABEL com.dotcms.description "dotCMS Content Management System"
 LABEL com.github.actions.icon "hash"
 LABEL com.github.actions.color "gray-dark"
 
-RUN /etc/lsb-release
+#RUN /etc/lsb-release
 RUN cat /etc/os-release
 #RUN apk add --no-cache curl iptables
 RUN apt-get update
