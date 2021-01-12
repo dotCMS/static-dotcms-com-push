@@ -25,11 +25,11 @@ chmod 644 ${aws_folder}/credentials
 function s3Push {
   local key=$1
   local object=$2
-  echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
   ls -las ${object}
+  echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
   /usr/local/bin/aws --debug s3api put-object --bucket ${bucket} --key ${key} --body ${object}
-  echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
-  /usr/local/bin/aws --debug s3 ls ${bucket}/${key}
+  #echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
+  #/usr/local/bin/aws --debug s3 ls ${bucket}/${key}
 }
 
 function pushDistro {
@@ -45,7 +45,7 @@ function pushJavadoc {
 case "${type}" in
   distro)
     pushDistro 'tar.gz'
-    pushDistro 'zip'
+    #pushDistro 'zip'
     ;;
   javadoc)
     pushJavadoc 
