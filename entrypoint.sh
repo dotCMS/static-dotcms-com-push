@@ -27,9 +27,9 @@ function s3Push {
   local object=$2
   echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
   ls -las ${object}
-  /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}
+  /usr/local/bin/aws --debug s3api put-object --bucket ${bucket} --key ${key} --body ${object}
   echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
-  /usr/local/bin/aws s3 ls ${bucket}/${key}
+  /usr/local/bin/aws --debug s3 ls ${bucket}/${key}
 }
 
 function pushDistro {
