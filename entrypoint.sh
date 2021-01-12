@@ -25,7 +25,8 @@ chmod 644 ${aws_folder}/credentials
 function s3Push {
   local key=$1
   local object=$2
-  /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
+  /usr/local/bin/aws s3spi put-object --bucket ${bucket} --key ${key} --body ${object}
+  /usr/local/bin/aws s3 ls ${bucket}/${key}
 }
 
 function pushDistro {
