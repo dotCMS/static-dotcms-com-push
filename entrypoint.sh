@@ -6,37 +6,50 @@ version="$2"
 aws_access_key_id="$3"
 aws_secret_access_key="$4"
 test_run=$5
+aws_folder=/root/.aws
+target_base='./dist-output/'
+test_prefix='vico'
+distro_base_key='versions/'
+javadoc_base_key='docs/${version}/javadocs'
+if [[ ${test_run} == true ]]; then
+  distro_base_key="${test_prefix}/${distro_base_key}"
+  javadoc_base_key="${test_prefix}/${javadoc_base_key}"
+fi
 
-ls -las /root
+mkdir ${aws_folder} && chmod 755 
 echo "[default]
 aws_access_key_id=${aws_access_key_id}
-aws_secret_access_key=${aws_secret_access_key}" > /root/.aws/credentials
+aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
+chmod 644 ${aws_folder}/credentials
+
+function s3Push {
+  local key=$1
+  local object=$2
+  /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
+}
+
+function pushDistro {
+  local ext=$1
+  local distro_file="dotcms_${version}.${ext}"
+  s3Push "${distro_base_key}/${distro_file}" "${target_base}/${distro_file}"
+}
+
+function pushJavadoc {
+  s3Push "${javadoc_base_key}" "./buils/docs/javadoc"
+}
 
 case "${type}" in
   distro)
-    targz_distro_file="dotcms_${version}.tar.gz"
-    zip_distro_file="dotcms_${version}.zip"
-    target_base='./dist-output/'
-    base_key='versions/'
-    if [[ ${test_run} == true ]]; then
-      base_key="vico/${base_key}"
-    fi
-
-    key="${base_key}/${targz_distro_file}"
-    object="${target_base}/${targz_distro_file}"
-    /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
-
-    key="${base_key}/${zip_distro_file}"
-    object="${target_base}/${zip_distro_file}"
-    /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
+    pushDistro 'tar.gz'
+    pushDistro 'zip'
     ;;
   javadoc)
-    key="docs/${version}/javadocs"
-    if [[ ${test_run} == true ]]; then
-      key="vico/${key}"
-    fi
-    object="./buils/docs/javadoc"
-    /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
+    pushJavadoc 
+    ;;
+  all)
+    pushDistro 'tar.gz'
+    pushDistro 'zip'
+    pushJavadoc
     ;;
   *)
     echo "Invalid type, should be 'distro' or 'javadoc'"

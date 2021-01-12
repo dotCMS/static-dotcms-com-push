@@ -3,7 +3,7 @@ name: 'static.dotcms.com resource push'
 description: 'Pushes a file/directory to a AWS S3 (static.dotcms.com)'
 inputs:
   type:
-    description: 'Type of resource to upload, possible values: "distro" or "javadoc"'
+    description: 'Type of resource to upload, possible values: "distro", "javadoc", "all"'
     required: true
   version:
     description: 'DotCMS version to upload'
@@ -15,7 +15,7 @@ inputs:
     description: 'AWS Secret Access Key'
     required: true
   test-run:
-    description: flag to run in test mode
+    description: 'Flag to run in test mode'
     required: false
     default: false
   
