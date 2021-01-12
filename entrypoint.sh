@@ -15,7 +15,8 @@ case "${type}" in
   distro)
     targz_distro_file="dotcms_${version}.tar.gz"
     zip_distro_file="dotcms_${version}.zip"
-    base_key='/versions/'
+    #base_key='versions/'
+    base_key='vico/versions/'
     target_base='./dist-output/'
     
     key="${base_key}/${targz_distro_file}"
@@ -27,7 +28,8 @@ case "${type}" in
     /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
     ;;
   javadoc)
-    key="docs/${version}/javadocs"
+    #key="docs/${version}/javadocs"
+    key="vico/docs/${version}/javadocs"
     object="./buils/docs/javadoc"
     /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
     ;;
