@@ -23,8 +23,6 @@ aws_access_key_id=${aws_access_key_id}
 aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
 chmod 644 ${aws_folder}/credentials
 
-route add blackhole 169.254.169.254
-
 function s3Push {
   local key=$1
   local object=$2
@@ -45,6 +43,8 @@ function pushJavadoc {
   s3Push ${javadoc_base_key} ./buils/docs/javadoc
 }
 
+ip route add blackhole 169.254.169.254
+
 case "${type}" in
   distro)
     pushDistro 'tar.gz'
@@ -64,4 +64,4 @@ case "${type}" in
     ;;
 esac
 
-route del blackhole 169.254.169.254
+ip route del blackhole 169.254.169.254
