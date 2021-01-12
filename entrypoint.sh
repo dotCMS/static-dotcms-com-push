@@ -15,6 +15,7 @@ if [[ ${test_run} == true ]]; then
   distro_base_key="${test_prefix}/${distro_base_key}"
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
 fi
+export AWS_EC2_METADATA_DISABLED=true
 
 mkdir ${aws_folder} && chmod 755 ${aws_folder}
 echo "[default]
