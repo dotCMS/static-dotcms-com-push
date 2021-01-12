@@ -5,6 +5,7 @@ type="$1"
 version="$2"
 aws_access_key_id="$3"
 aws_secret_access_key="$4"
+test_run=$5
 
 ls -las /root
 echo "[default]
@@ -15,10 +16,12 @@ case "${type}" in
   distro)
     targz_distro_file="dotcms_${version}.tar.gz"
     zip_distro_file="dotcms_${version}.zip"
-    #base_key='versions/'
-    base_key='vico/versions/'
     target_base='./dist-output/'
-    
+    base_key='versions/'
+    if [[ ${test_run} == true ]]; then
+      base_key="vico/${base_key}"
+    fi
+
     key="${base_key}/${targz_distro_file}"
     object="${target_base}/${targz_distro_file}"
     /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
@@ -28,8 +31,10 @@ case "${type}" in
     /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
     ;;
   javadoc)
-    #key="docs/${version}/javadocs"
-    key="vico/docs/${version}/javadocs"
+    key="docs/${version}/javadocs"
+    if [[ ${test_run} == true ]]; then
+      key="vico/${key}"
+    fi
     object="./buils/docs/javadoc"
     /usr/local/bin/aws put-object --bucket ${bucket} --key ${key} --body ${object}
     ;;
