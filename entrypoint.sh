@@ -9,7 +9,7 @@ test_run=$5
 aws_folder=/root/.aws
 target_base='./dist-output/'
 test_prefix='vico'
-distro_base_key='versions/'
+distro_base_key='versions'
 javadoc_base_key='docs/${version}/javadocs'
 if [[ ${test_run} == true ]]; then
   distro_base_key="${test_prefix}/${distro_base_key}"
