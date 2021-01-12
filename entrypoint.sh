@@ -16,7 +16,7 @@ if [[ ${test_run} == true ]]; then
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
 fi
 
-mkdir ${aws_folder} && chmod 755 
+mkdir ${aws_folder} && chmod 755 ${aws_folder}
 echo "[default]
 aws_access_key_id=${aws_access_key_id}
 aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
