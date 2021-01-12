@@ -23,6 +23,8 @@ aws_access_key_id=${aws_access_key_id}
 aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
 chmod 644 ${aws_folder}/credentials
 
+ip route add blackhole 169.254.169.254
+
 function s3Push {
   local key=$1
   local object=$2
@@ -61,3 +63,5 @@ case "${type}" in
     exit 1
     ;;
 esac
+
+ip route del blackhole 169.254.169.254
