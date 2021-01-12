@@ -23,8 +23,8 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.bucket }}
-    - ${{ inputs.key }}
-    - ${{ inputs.object }}
+    - ${{ inputs.type }}
+    - ${{ inputs.version }}
     - ${{ inputs.aws-access-key-id }}
     - ${{ inputs.aws-secret-access-key }}
+    - ${{ inputs.test-run }}
