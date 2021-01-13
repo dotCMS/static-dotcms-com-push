@@ -17,7 +17,7 @@ if [[ ${test_run} == true ]]; then
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
 fi
 
-#export AWS_EC2_METADATA_DISABLED=true
+export AWS_EC2_METADATA_DISABLED=true
 
 mkdir ${aws_folder} && chmod 755 ${aws_folder}
 echo "[default]
@@ -28,19 +28,26 @@ region=${aws_region}
 output=json" > ${aws_folder}/config
 
 chmod 644 ${aws_folder}/*
-echo "\n\n\n\n\n\n\n##########"
 ls -las ${aws_folder}
-echo "##########\n\n\n\n\n\n\n"
+cat ${aws_folder}/*
 
 function s3Push {
   local key=$1
   local object=$2
   
-  echo "\n\n\n\n\n\n\n##########"
+  echo "
+  
+  
+  
+  
+  
+  ######################################################################"
   ls -las ${object}
   echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
   /usr/local/bin/aws --debug s3 ls ${bucket}/${key}
-  echo "##########\n\n\n\n\n\n\n"
+  echo "######################################################################
+  
+  "
   
   
   #echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
