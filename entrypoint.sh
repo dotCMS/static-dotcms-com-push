@@ -53,7 +53,7 @@ function pushJavadoc {
   s3Push ${javadoc_base_key} ./buils/docs/javadoc
 }
 
-route add blackhole 169.254.169.254
+#route add blackhole 169.254.169.254
 
 case "${type}" in
   distro)
@@ -74,4 +74,4 @@ case "${type}" in
     ;;
 esac
 
-route del blackhole 169.254.169.254
+#route del blackhole 169.254.169.254
