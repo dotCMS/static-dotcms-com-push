@@ -5,8 +5,9 @@ type="$1"
 version="$2"
 aws_access_key_id="$3"
 aws_secret_access_key="$4"
-test_run=$5
 aws_folder=/root/.aws
+aws_region='us-east-2'
+test_run=$5
 target_base='./dist-output'
 test_prefix='vico'
 distro_base_key='versions'
@@ -16,15 +17,21 @@ if [[ ${test_run} == true ]]; then
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
 fi
 
-export AWS_REGION='us-east-2'
+#export AWS_REGION='us-east-2'
 export AWS_EC2_METADATA_DISABLED=true
 
 /usr/local/bin/aws --version
 mkdir ${aws_folder} && chmod 755 ${aws_folder}
+
 echo "[default]
 aws_access_key_id=${aws_access_key_id}
 aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
-chmod 644 ${aws_folder}/credentials
+
+echo "[default]
+region=${aws_region}
+output=json" > ${aws_folder}/config
+
+chmod 644 ${aws_folder}/*
 
 function s3Push {
   local key=$1
@@ -46,7 +53,7 @@ function pushJavadoc {
   s3Push ${javadoc_base_key} ./buils/docs/javadoc
 }
 
-ip route add blackhole 169.254.169.254
+route add blackhole 169.254.169.254
 
 case "${type}" in
   distro)
@@ -67,4 +74,4 @@ case "${type}" in
     ;;
 esac
 
-ip route del blackhole 169.254.169.254
+route del blackhole 169.254.169.254
