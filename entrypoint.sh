@@ -17,6 +17,7 @@ if [[ ${test_run} == true ]]; then
 fi
 export AWS_EC2_METADATA_DISABLED=true
 
+/usr/local/bin/aws --version
 mkdir ${aws_folder} && chmod 755 ${aws_folder}
 echo "[default]
 aws_access_key_id=${aws_access_key_id}
