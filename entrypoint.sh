@@ -15,6 +15,8 @@ if [[ ${test_run} == true ]]; then
   distro_base_key="${test_prefix}/${distro_base_key}"
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
 fi
+
+export AWS_REGION='us-east-1'
 export AWS_EC2_METADATA_DISABLED=true
 
 /usr/local/bin/aws --version
