@@ -6,7 +6,7 @@ version="$2"
 aws_access_key_id="$3"
 aws_secret_access_key="$4"
 aws_folder=/root/.aws
-aws_region='us-east-2'
+aws_region='us-east-1'
 test_run=$5
 target_base='./dist-output'
 test_prefix='vico'
@@ -17,28 +17,34 @@ if [[ ${test_run} == true ]]; then
   javadoc_base_key="${test_prefix}/${javadoc_base_key}"
 fi
 
-#export AWS_REGION='us-east-2'
-export AWS_EC2_METADATA_DISABLED=true
+#export AWS_EC2_METADATA_DISABLED=true
 
-/usr/local/bin/aws --version
 mkdir ${aws_folder} && chmod 755 ${aws_folder}
-
 echo "[default]
 aws_access_key_id=${aws_access_key_id}
 aws_secret_access_key=${aws_secret_access_key}" > ${aws_folder}/credentials
-
 echo "[default]
 region=${aws_region}
 output=json" > ${aws_folder}/config
 
 chmod 644 ${aws_folder}/*
+echo "\n\n\n\n\n\n\n##########"
+ls -las ${aws_folder}
+echo "##########\n\n\n\n\n\n\n"
 
 function s3Push {
   local key=$1
   local object=$2
+  
+  echo "\n\n\n\n\n\n\n##########"
   ls -las ${object}
-  echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
-  /usr/local/bin/aws --debug s3api put-object --bucket ${bucket} --key ${key} --body ${object}
+  echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
+  /usr/local/bin/aws --debug s3 ls ${bucket}/${key}
+  echo "##########\n\n\n\n\n\n\n"
+  
+  
+  #echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
+  #/usr/local/bin/aws --debug s3api put-object --bucket ${bucket} --key ${key} --body ${object}
   #echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
   #/usr/local/bin/aws --debug s3 ls ${bucket}/${key}
 }
@@ -53,6 +59,7 @@ function pushJavadoc {
   s3Push ${javadoc_base_key} ./buils/docs/javadoc
 }
 
+/usr/local/bin/aws --version
 #route add blackhole 169.254.169.254
 
 case "${type}" in
