@@ -6,7 +6,7 @@ version="$2"
 aws_access_key_id="$3"
 aws_secret_access_key="$4"
 aws_folder=/root/.aws
-aws_region='us-east-1'
+aws_region='us-east-2'
 test_run=$5
 target_base='./dist-output'
 test_prefix='vico'
@@ -41,14 +41,10 @@ function s3Push {
   
   
   
-  ######################################################################"
+######################################################################"
   ls -las ${object}
   echo "Executing: /usr/local/bin/aws s3 ls ${bucket}/${key}"
-  /usr/local/bin/aws --debug s3 ls ${bucket}/${key}
-  echo "######################################################################
-  
-  "
-  
+  /usr/local/bin/aws --debug s3 ls ${bucket}/${key}  
   
   #echo "Executing: /usr/local/bin/aws s3api put-object --bucket ${bucket} --key ${key} --body ${object}"
   #/usr/local/bin/aws --debug s3api put-object --bucket ${bucket} --key ${key} --body ${object}
